@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  public hide: boolean = true;
   public formulario = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]],

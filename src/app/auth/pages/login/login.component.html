@@ -1,11 +1,31 @@
-<form [formGroup]="formulario" (submit)="login()">
-  <input formControlName="email" placeholder="email" type="text" /><br /><br />
-  <input
-    formControlName="password"
-    placeholder="password"
-    type="password"
-    name=""
-    id=""
-  /><br /><br />
-  <button type="submit">Log in</button>
+<form [formGroup]="formulario" (submit)="login()" autocomplete="off">
+  <mat-form-field class="example-full-width">
+    <mat-label>Email</mat-label>
+    <input
+      type="email"
+      matInput
+      formControlName="email"
+      placeholder="Ex. pat@example.com"
+    />
+    <mat-error *ngIf="true"> Please enter a valid email address </mat-error>
+    <mat-error *ngIf="true"> Email is <strong>required</strong> </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Enter your password</mat-label>
+    <input
+      formControlName="password"
+      matInput
+      [type]="hide ? 'password' : 'text'"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="hide = !hide"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide"
+    >
+      <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-raised-button color="primary">Log in</button>
 </form>
