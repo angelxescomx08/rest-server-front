@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -14,11 +17,16 @@ export class LoginComponent {
     password: ['', [Validators.required, Validators.minLength(3)]],
   });
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  durationInSeconds = 5;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   login() {
     if (this.formulario.invalid) {
-      console.log('Debes ingresar todos los campos');
       return;
     }
     this.authService
@@ -26,6 +34,19 @@ export class LoginComponent {
         email: this.formulario.value.email ?? '',
         password: this.formulario.value.password ?? '',
       })
-      .subscribe((res) => console.log);
+      .pipe(
+        catchError((e: HttpErrorResponse) =>
+          of({ success: false, error: e, message: e.error.message })
+        )
+      )
+      .subscribe((res) => {
+        if (!res.success) {
+          this.openSnackBar(res.message);
+        }
+      });
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message);
   }
 }
