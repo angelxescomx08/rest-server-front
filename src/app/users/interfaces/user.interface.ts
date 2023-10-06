@@ -1,4 +1,4 @@
-import { type valuesOf } from '../shared/interfaces/shared.interfaces';
+import { type valuesOf } from '../../shared/interfaces/shared.interfaces';
 
 export const ROL = {
   ADMIN_ROL: 'ADMIN_ROL',

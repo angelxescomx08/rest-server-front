@@ -1,4 +1,4 @@
-import { type User } from 'src/app/users/user.interface';
+import { type User } from 'src/app/users/interfaces/user.interface';
 
 export interface LoginBody {
   email: string;

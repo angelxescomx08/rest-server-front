@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private authService: AuthService,
     private _snackBar: MatSnackBar
   ) {}
@@ -41,8 +43,9 @@ export class LoginComponent {
       )
       .subscribe((res) => {
         if (!res.success) {
-          this.openSnackBar(res.message);
+          return this.openSnackBar(res.message);
         }
+        this.router.navigateByUrl('/user');
       });
   }
 
