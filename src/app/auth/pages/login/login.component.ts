@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { KEY_LOCAL_STORAGE_TOKEN } from '../../interfaces/login.interface';
 
 @Component({
   selector: 'app-login',
@@ -36,16 +37,14 @@ export class LoginComponent {
         email: this.formulario.value.email ?? '',
         password: this.formulario.value.password ?? '',
       })
-      .pipe(
-        catchError((e: HttpErrorResponse) =>
-          of({ success: false, error: e, message: e.error.message })
-        )
-      )
+      .pipe(catchError((e: HttpErrorResponse, response) => response))
       .subscribe((res) => {
-        if (!res.success) {
+        if (res.success === false) {
           return this.openSnackBar(res.message);
+        } else {
+          localStorage.setItem(KEY_LOCAL_STORAGE_TOKEN, res.token);
+          this.router.navigateByUrl('/user');
         }
-        this.router.navigateByUrl('/user');
       });
   }
 

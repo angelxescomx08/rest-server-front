@@ -5,11 +5,18 @@ export interface LoginBody {
   password: string;
 }
 
-export type ResponseLogin =
-  | {
-      success: true;
-      message: string;
-      user: User;
-      token: string;
-    }
-  | { success: false; message: string };
+export type SuccessResponseLogin = {
+  success: true;
+  user: User;
+  token: string;
+};
+
+export type FailedResponseLogin = {
+  success: false;
+};
+
+export type ResponseLogin = {
+  message: string;
+} & (SuccessResponseLogin | FailedResponseLogin);
+
+export const KEY_LOCAL_STORAGE_TOKEN = 'TOKEN';
