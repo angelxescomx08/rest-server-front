@@ -14,3 +14,8 @@ export interface User {
   google: boolean;
   img?: string;
 }
+
+export interface ResponseGetUsers {
+  total: number;
+  users: User[];
+}
