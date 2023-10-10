@@ -1,1 +1,5 @@
-<app-card-user *ngFor="let user of users"></app-card-user>
+<div class="grid grid-cols-12 gap-4 p-4">
+  <div class="col-span-6" *ngFor="let user of users">
+    <app-card-user [user]="user"></app-card-user>
+  </div>
+</div>
