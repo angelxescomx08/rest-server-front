@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared/shared.module';
 import { MainLayoutComponent } from '../shared/layouts/main-layout/main-layout.component';
+import { AddUserComponent } from './pages/add-user/add-user.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,14 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent,
+      },
+      {
+        path: 'create',
+        component: AddUserComponent,
+      },
+      {
+        path: '**',
+        redirectTo: '/dashboard/user',
       },
     ],
   },

@@ -10,9 +10,16 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { CardUserComponent } from './components/card-user/card-user/card-user.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { AddUserComponent } from './pages/add-user/add-user.component';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  declarations: [DashboardComponent, CardUserComponent],
+  declarations: [DashboardComponent, CardUserComponent, AddUserComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -20,6 +27,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatGridListModule,
     MatCardModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    MatInputModule,
   ],
 })
 export class UsersModule {}

@@ -1,0 +1,50 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-12 gap-4">
+    <div class="col-span-12 md:col-span-6">
+      <mat-form-field class="w-full">
+        <input matInput formControlName="name" placeholder="Name" required />
+      </mat-form-field>
+    </div>
+    <div class="col-span-12 md:col-span-6">
+      <mat-form-field class="w-full">
+        <input matInput formControlName="email" placeholder="Email" required />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4">
+    <div class="col-span-12 md:col-span-6">
+      <mat-form-field class="w-full">
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-span-12 md:col-span-6">
+      <mat-form-field class="w-full">
+        <input
+          matInput
+          type="password"
+          formControlName="repeat_password"
+          placeholder="Repeat password"
+          required
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4">
+    <mat-form-field class="col-span-12 md:col-span-6">
+      <mat-label>Rol</mat-label>
+      <mat-select formControlName="rol" required class="w-full">
+        <mat-option *ngFor="let rol of []" [value]="rol">{{ rol }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit">Crear usuario</button>
+</form>
