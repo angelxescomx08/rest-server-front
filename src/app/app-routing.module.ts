@@ -14,11 +14,20 @@ const routes: Routes = [
     canMatch: [PublicCanMatch],
   },
   {
-    path: 'user',
-    loadChildren: () =>
-      import('./users/users.module').then((m) => m.UsersModule),
-    canActivate: [privateCanActivate],
-    canMatch: [privateCanActivate],
+    path: 'dashboard',
+    children: [
+      {
+        path: 'user',
+        loadChildren: () =>
+          import('./users/users.module').then((m) => m.UsersModule),
+        canActivate: [privateCanActivate],
+        canMatch: [privateCanActivate],
+      },
+      {
+        path: '**',
+        redirectTo: '/dashboard/user',
+      },
+    ],
   },
   {
     path: '',

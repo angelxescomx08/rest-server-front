@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { SharedModule } from '../shared/shared/shared.module';
+import { MainLayoutComponent } from '../shared/layouts/main-layout/main-layout.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: UserLayoutComponent,
+    component: MainLayoutComponent,
     children: [
       {
         path: '',
@@ -17,7 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), SharedModule],
   exports: [RouterModule],
 })
 export class UsersRoutingModule {}

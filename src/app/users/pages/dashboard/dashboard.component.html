@@ -1,5 +1,11 @@
-<div class="grid grid-cols-12 gap-4 p-4">
-  <div class="col-span-6" *ngFor="let user of users">
-    <app-card-user [user]="user"></app-card-user>
+<div class="p-4">
+  <a
+    class="bg-white px-4 py-2 mb-4 inline-block rounded-md cursor-pointer font-bold"
+    >Agregar Usuario</a
+  >
+  <div class="grid grid-cols-12 gap-4">
+    <div class="col-span-6" *ngFor="let user of users">
+      <app-card-user [user]="user"></app-card-user>
+    </div>
   </div>
 </div>
