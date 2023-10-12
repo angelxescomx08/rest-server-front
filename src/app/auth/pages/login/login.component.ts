@@ -43,7 +43,7 @@ export class LoginComponent {
           return this.openSnackBar(res.message);
         } else {
           localStorage.setItem(KEY_LOCAL_STORAGE_TOKEN, res.token);
-          this.router.navigateByUrl('/user');
+          this.router.navigateByUrl('/dashboard/user');
         }
       });
   }

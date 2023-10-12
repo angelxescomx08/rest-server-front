@@ -24,7 +24,7 @@ export const PublicCanMatch: CanMatchFn = (
     catchError((_, data) => data),
     tap((success) => {
       if (success) {
-        router.navigateByUrl('/user');
+        router.navigateByUrl('/dashboard/user');
       }
     }),
     map((res) => !res.success)
@@ -43,7 +43,7 @@ export const PublicCanActivate: CanActivateFn = (
     catchError((_, data) => data),
     tap((success) => {
       if (success) {
-        router.navigateByUrl('/user');
+        router.navigateByUrl('/dashboard/user');
       }
     }),
     map((res) => !res.success)
