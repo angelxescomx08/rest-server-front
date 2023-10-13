@@ -10,7 +10,8 @@ import {
 import { KEY_LOCAL_STORAGE_TOKEN } from '../interfaces/login.interface';
 import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
-import { map, tap, catchError } from 'rxjs';
+import { map, tap, catchError, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const PublicCanMatch: CanMatchFn = (
   route: Route,
@@ -21,10 +22,20 @@ export const PublicCanMatch: CanMatchFn = (
   const authService: AuthService = inject(AuthService);
   const router = inject(Router);
   return authService.verifyToken(token).pipe(
-    catchError((_, data) => data),
-    tap((success) => {
-      if (success) {
+    catchError((error: HttpErrorResponse, data) => {
+      if (error.name === 'HttpErrorResponse') {
+        return of({
+          success: false,
+          message: 'Error al establecer conexión con el backend',
+        });
+      }
+      return data;
+    }),
+    tap((res) => {
+      if (res.success) {
         router.navigateByUrl('/dashboard/user');
+      } else {
+        localStorage.clear();
       }
     }),
     map((res) => !res.success)
@@ -40,10 +51,20 @@ export const PublicCanActivate: CanActivateFn = (
   const authService: AuthService = inject(AuthService);
   const router = inject(Router);
   return authService.verifyToken(token).pipe(
-    catchError((_, data) => data),
-    tap((success) => {
-      if (success) {
+    catchError((error: HttpErrorResponse, data) => {
+      if (error.name === 'HttpErrorResponse') {
+        return of({
+          success: false,
+          message: 'Error al establecer conexión con el backend',
+        });
+      }
+      return data;
+    }),
+    tap((res) => {
+      if (res.success) {
         router.navigateByUrl('/dashboard/user');
+      } else {
+        localStorage.clear();
       }
     }),
     map((res) => !res.success)

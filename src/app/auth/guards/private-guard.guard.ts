@@ -23,6 +23,7 @@ export const privateCanActivate: CanActivateFn = (route, state) => {
     catchError((_, data) => data),
     tap((success) => {
       if (!success) {
+        localStorage.clear();
         router.navigateByUrl('/auth/login');
       }
     }),
@@ -43,6 +44,7 @@ export const NameGuard: CanMatchFn = (route: Route, segments: UrlSegment[]) => {
     catchError((_, data) => data),
     tap((success) => {
       if (!success) {
+        localStorage.clear();
         router.navigateByUrl('/auth/login');
       }
     }),

@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { KEY_LOCAL_STORAGE_TOKEN } from '../../interfaces/login.interface';
+import {
+  KEY_LOCAL_STORAGE_TOKEN,
+  ResponseLogin,
+} from '../../interfaces/login.interface';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +28,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private _snackBar: MatSnackBar
+    private toastService: ToastService
   ) {}
 
   login() {
@@ -37,18 +40,24 @@ export class LoginComponent {
         email: this.formulario.value.email ?? '',
         password: this.formulario.value.password ?? '',
       })
-      .pipe(catchError((e: HttpErrorResponse, response) => response))
+      .pipe(
+        catchError((e: HttpErrorResponse, response) => {
+          if (e.name === 'HttpErrorResponse') {
+            return of({
+              success: false,
+              message: 'Error al establecer conexión con el backend',
+            } as ResponseLogin);
+          }
+          return response;
+        })
+      )
       .subscribe((res) => {
         if (res.success === false) {
-          return this.openSnackBar(res.message);
+          return this.toastService.openSnackBar(res.message);
         } else {
           localStorage.setItem(KEY_LOCAL_STORAGE_TOKEN, res.token);
           this.router.navigateByUrl('/dashboard/user');
         }
       });
-  }
-
-  openSnackBar(message: string) {
-    this._snackBar.open(message);
   }
 }
