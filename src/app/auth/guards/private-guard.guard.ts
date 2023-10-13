@@ -8,7 +8,8 @@ import {
 import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 import { KEY_LOCAL_STORAGE_TOKEN } from '../interfaces/login.interface';
-import { catchError, map, tap } from 'rxjs';
+import { catchError, map, tap, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const privateCanActivate: CanActivateFn = (route, state) => {
   const authService: AuthService = inject(AuthService);
@@ -20,7 +21,15 @@ export const privateCanActivate: CanActivateFn = (route, state) => {
     return false;
   }
   return authService.verifyToken(token).pipe(
-    catchError((_, data) => data),
+    catchError((error: HttpErrorResponse, data) => {
+      if (error.name === 'HttpErrorResponse') {
+        return of({
+          success: false,
+          message: 'Error al establecer conexión con el backend',
+        });
+      }
+      return data;
+    }),
     tap((success) => {
       if (!success) {
         localStorage.clear();
@@ -41,7 +50,15 @@ export const NameGuard: CanMatchFn = (route: Route, segments: UrlSegment[]) => {
     return false;
   }
   return authService.verifyToken(token).pipe(
-    catchError((_, data) => data),
+    catchError((error: HttpErrorResponse, data) => {
+      if (error.name === 'HttpErrorResponse') {
+        return of({
+          success: false,
+          message: 'Error al establecer conexión con el backend',
+        });
+      }
+      return data;
+    }),
     tap((success) => {
       if (!success) {
         localStorage.clear();
