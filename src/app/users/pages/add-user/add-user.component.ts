@@ -6,12 +6,19 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./add-user.component.css'],
 })
 export class AddUserComponent {
+  public roles = [
+    'Selecciona un rol',
+    'ADMIN_ROL',
+    'USER_ROL',
+    'VENTAS_ROL',
+  ] as const;
+
   public formulario = this.fb.group({
     email: [],
     password: [],
     repeat_password: [],
     name: [],
-    rol: [],
+    rol: [this.roles[0]],
   });
 
   constructor(private fb: FormBuilder) {}
