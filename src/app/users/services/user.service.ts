@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import { catchError, of } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { environment } from 'src/environments/environment.development';
-import { ResponseGetUsers } from '../interfaces/user.interface';
+import {
+  ResponseCreateUser,
+  ResponseGetUsers,
+  User,
+} from '../interfaces/user.interface';
+import { Prettify } from '../../shared/interfaces/shared.interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +38,16 @@ export class UserService {
       );
   }
 
-  createUser() {}
+  createUser(user: Prettify<Omit<User, 'state' | 'google' | 'img'>>) {
+    const token = this.authService.getToken();
+    return this.http.post<ResponseCreateUser>(
+      `${environment.baseUrl}/api/user`,
+      user,
+      {
+        headers: {
+          'x-token': token,
+        },
+      }
+    );
+  }
 }
